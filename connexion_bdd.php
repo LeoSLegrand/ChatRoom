@@ -7,6 +7,4 @@
         //si la connexion échoue , afficher :
         echo "Connexion échouée";
     }
-
-
 ?>
