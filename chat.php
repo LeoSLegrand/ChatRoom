@@ -1,9 +1,8 @@
 <?php 
-  //démarer la session
+  //Démarer la session
   session_start();
   if(!isset($_SESSION['user'])){
-      // si l'utilisateur n'est pas connecté
-     // redirection vers la page de connexion
+      // si l'utilisateur n'est pas connecté redirection vers la page de connexion
      header("location:index.php");
   }
   $user = $_SESSION['user'] // email de l'utilisateur
@@ -36,7 +35,7 @@
                include("connexion_bdd.php");
                //verifions si le champs n'est pas vide
                if(isset($message) && $message != ""){
-                   //inserer le message dans la base de données
+                   //insérer le message dans la base de données
                    $req = mysqli_query($con , "INSERT INTO messages VALUES (NULL ,'$user','$message',NOW())");
                    //on actualise la page
                    header('location:chat.php');
