@@ -32,7 +32,7 @@
                // recuperons le message
                $message = $_POST['message']; 
                //connexion à la base de donnée
-               include("connexion_bdd.php");
+               include_once "connexion_bdd.php";
                //verifions si le champs n'est pas vide
                if(isset($message) && $message != ""){
                    //insérer le message dans la base de données

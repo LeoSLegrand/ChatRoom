@@ -1,0 +1,3 @@
+Lance le scan (a faire dans cmd dans "C:\wamp64\www\ChatRoom")
+
+sonar-scanner.bat -D"sonar.projectKey=Chat-Room" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9000" -D"sonar.token=sqp_70a968457111648f521d1b467c580e014ded2f2d"
