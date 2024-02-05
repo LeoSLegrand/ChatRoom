@@ -20,12 +20,17 @@
                 include "connexion_bdd.php";
                 extract($_POST);
 
+
+                // Utilise une commande préparé pour éviter les injection SQL
                 if(isset($email) && isset($mdp1) && $email != "" && $mdp1 != ""){
-                    $req = mysqli_query($con, "SELECT * FROM utilisateurs WHERE email = '$email'");
-                    
+                    $stmt = mysqli_prepare($con, "SELECT * FROM utilisateurs WHERE email = ?");
+                    mysqli_stmt_bind_param($stmt, "s", $email);
+                    mysqli_stmt_execute($stmt);
+                    $req = mysqli_stmt_get_result($stmt);
+                                        
                     // Vérifie si la requête à réussi
                     if($req){
-                        // Vérifie si il y'a bien des row dans la table ou on requete
+                        // Vérifie si il y'a bien des row dans la table ou on requte
                         if(mysqli_num_rows($req) > 0){
                             $user = mysqli_fetch_assoc($req);
 
@@ -73,7 +78,7 @@
             <label>Mots de passe</label>
             <input type="password" name="mdp1">
             <input type="submit" value="Connexion" name="button_con">
-            <p class="link">Vous n'avez pas de compte ? <a href="inscription.php">Créer un compte</a></p>
+            <p class="link">Vous n'avez pas de compte ? <br><a href="inscription.php">Créer un compte</a></p>
         </form>
     </body>
 </html>

@@ -83,47 +83,66 @@ body {
     text-decoration: 0;
     border-radius: 6px;
 }
+
 .messages_box {
-    min-height: 360px;
-    max-height: 360px;
-    min-width: 400px;
+    min-height: 360px; /* Adjust the minimum height as needed */
+    max-height: 500px; /* Adjust the maximum height as needed */
+    min-width: 80%; /* Adjust the minimum width as needed */
     margin: 10px 0;
     overflow: auto;
     padding: 5px 10px;
     border-top: 1px solid #999;
 }
+
+
 .messages_box .message {
-   margin-bottom: 15px;
-   padding: 8px;
-   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-   width: 350px;
+    margin-bottom: 15px;
+    padding: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 350px;
+    /* Additional formatting styles */
+    color: #333; /* Default text color */
+    font-weight: normal; /* Default font weight */
+    font-style: normal; /* Default font style */
+    text-decoration: none; /* Default text decoration */
 }
+
 .messages_box .message span {
     font-weight: bold;
     font-size: 14px;
 }
+
 .messages_box p {
     word-break: break-all;
     font-size: 13px
 }
+
+/* Your message styles */
 .your_message {
     border: 1px solid #1877f2;
     border-radius: 10px 10px 10px 0;
 }
+
 .your_message span {
     color: #1877f2;
 }
+
+/* Others' message styles */
 .others_message {
     border: 1px solid #999;
     margin-left: auto;
     border-radius: 10px 10px 0 10px;
 }
+
 .others_message span {
     color: #333;
 }
+
+/* Date styles */
 .date {
     color: #ccc;
 }
+
 .send_message {
     border-top: 1px solid #999;
     display: flex;
@@ -158,3 +177,4 @@ body {
     font-size: 12px;
     border-radius: 6px;
 }
+

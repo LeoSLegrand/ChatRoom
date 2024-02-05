@@ -24,13 +24,13 @@
                 //verifions si les champs sont vides
                 if(isset($email) && isset($mdp1) && $email != "" && $mdp1 != "" && isset($mdp2) && $mdp2 != ""){
 
-                    //verifions que les mots de passes sont conforme
+                    //Vérifie que les mots de passes sont conforme
                     if($mdp2 != $mdp1){
-                        // s'ils sont differrent
+                        // s'ils sont différrent
                         $error = "Les Mots de passes sont différents !";
 
                     }else {
-                        //si non , verifions si l'email existe
+                        //si non , vérifions si l'email existe
                         $req = mysqli_query($con , "SELECT * FROM utilisateurs WHERE email = '$email'");
 
                         if(mysqli_num_rows($req) == 0){
@@ -81,7 +81,7 @@
             <label>Confirmation Mots de passe</label>
             <input type="password" name="mdp2" class="mdp2">
             <input type="submit" value="Inscription" name="button_inscription">
-            <p class="link">Vous avez un compte ? <a href="index.php">Se connecter</a></p>
+            <p class="link">Vous avez un compte ? <br><a href="index.php">Connectez-vous</a></p>
         </form>
 
         <!-- Relié notre page a notre fichier javascript -->
