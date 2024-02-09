@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 09, 2024 at 10:39 AM
+-- Generation Time: Feb 09, 2024 at 01:15 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `is_italics` tinyint(1) DEFAULT '0',
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_m`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `messages`
@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `messages` (
 
 INSERT INTO `messages` (`id_m`, `email`, `msg`, `date`, `text_color`, `is_bold`, `is_italics`, `image`) VALUES
 (1, 'Sarouman@gmail.com', 'Hey, salut à tous les amis, c\'est David Lafarge Pokemon', '2023-11-23 16:14:29', '#0000FF', 1, 0, NULL),
-(3, 'Sarouman@gmail.com', 'Gros con', '2023-11-22 16:16:39', NULL, 0, 0, NULL),
 (4, 'Sarouman@gmail.com', 'Lol', '2023-11-22 16:19:14', NULL, 0, 0, NULL),
 (5, 'z@z', 'dd', '2024-02-05 10:17:06', '', 0, 0, NULL),
 (6, 'z@z', 'dfsgwdhxfncg,', '2024-02-05 10:20:17', '#000000', 1, 1, NULL),
@@ -76,7 +75,8 @@ INSERT INTO `messages` (`id_m`, `email`, `msg`, `date`, `text_color`, `is_bold`,
 (31, 'z@z', 'https://github.com/', '2024-02-05 11:43:53', '#000000', 0, 0, ''),
 (32, 'z@z', 'https://github.com/', '2024-02-05 12:04:13', '#0000ff', 0, 0, ''),
 (33, 'azerty@mail', 'Ce message est en orange et gras avec une image ', '2024-02-05 12:10:03', '#ff8000', 1, 0, 'uploads/sunset.jpg'),
-(34, 'z@z', 'ezqestyg', '2024-02-09 11:02:25', '#000000', 0, 0, 'uploads/BioHazard Lord-EUW-1.jpeg');
+(34, 'z@z', 'ezqestyg', '2024-02-09 11:02:25', '#000000', 0, 0, 'uploads/BioHazard Lord-EUW-1.jpeg'),
+(36, 'aurelion@gmail.com', 'Hello Runterra ! Let\'s rock !', '2024-02-09 12:24:19', '#ffff80', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `mdp` varchar(255) NOT NULL,
   `IsAdmin` tinyint DEFAULT '0',
   PRIMARY KEY (`id_u`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `utilisateurs`
@@ -101,7 +101,11 @@ INSERT INTO `utilisateurs` (`id_u`, `email`, `mdp`, `IsAdmin`) VALUES
 (5, 'azerty@mail', '$2y$10$0NFjyi9v3GpxBQhl6bZ4Auuf3hZ/4t6nz6ZNAiSo6WhhwMiyF1qB6', 0),
 (4, 'z@z', '$2y$10$bzUlAMyJAeT.YluEtT8AfuLpjzgd0ypcaBEAOMsNP0BikxyznfbwG', 0),
 (6, 'admin@man', '$2y$10$Ee6L9YlqHCTdQininTwAfeOQUDAP/1xKEyILTZNzxT7B.gQCU3IAW', 1),
-(7, 'qsqdwfvhb@ddfdf', '$2y$10$UuY3e2dgne3VKx6P12XPaucP0koxC/nVDq/p478fIUwkT9yjPg6eq', 0);
+(7, 'qsqdwfvhb@ddfdf', '$2y$10$UuY3e2dgne3VKx6P12XPaucP0koxC/nVDq/p478fIUwkT9yjPg6eq', 1),
+(8, 'Hello@gmail.com', '$2y$10$obq9J8Vrtz95.TYVd.rjbOLl4R2Uofz2iVRiuCNAJdmTaFTGggRki', 1),
+(9, 'ken@mail.com', '$2y$10$0c/1vT/c9zJqNFV4Mafg0O7G.hhd2G3gUsv/d0m6XQCNkI/pDt76a', 0),
+(11, 'aurelion@gmail.com', '$2y$10$Jgj3Gkjwz4P4fMD1dOwqneWFW3MJ/fYha1cpzrV.fIEZivK3N/fQ.', 0),
+(12, 'testtoutmarche@a.a', '$2y$10$KEjgh13IN5.9QN5gKKXUrOLNfSRwjwmQePzD1pUh9d3PQgubyBDPa', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
