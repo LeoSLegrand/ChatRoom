@@ -12,7 +12,7 @@
    - Ouvrez votre navigateur web.
    - Dans la barre d'adresse, tapez http://localhost/ChatRoom.
 
-En suivant ces étapes, vous devriez être en mesure de lancer votre chatroom localement via WampServer en accédant à **h.ttp://localhost/ChatRoom** dans votre navigateur. 
+En suivant ces étapes, vous devriez être en mesure de lancer votre chatroom localement via WampServer en accédant à **http://localhost/ChatRoom** dans votre navigateur. 
 
 Désormais, nous allons voir la configuration de la base de données pour permettre à cette application d'atteindre tout son potentiel et toutes ses capacités.
 
