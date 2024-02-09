@@ -25,6 +25,7 @@ function convertLinks($message)
 if (isset($_SESSION['user'])) {
     // Connect to the database
     include "connexion_bdd.php";
+
     // Query to display messages
     $req = mysqli_query($con, "SELECT * FROM messages ORDER BY id_m");
 

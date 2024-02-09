@@ -25,6 +25,15 @@ $user = $_SESSION['user']; // User's email
     <div class="chat">
         <div class="button-email">
             <span> <?=$user?> </span>
+            <?php
+            // Check if the user is an admin
+            if ($_SESSION['isAdmin']) {
+                // If user is an admin, display the "Gérer les comptes" button
+                ?>
+                <a href="manageAccount.php" class="manage_account_btn">Gérer les comptes</a>
+                <?php
+            }
+            ?>
             <a href="deconnexion.php" class="Deconnexion_btn">Déconnexion</a>
         </div>
         <!-- Messages -->
@@ -107,14 +116,13 @@ $user = $_SESSION['user']; // User's email
             </div>
 
             <div>
-            <!-- Image upload field -->
+                <!-- Image upload field -->
                 <label for="image">Image :</label>
                 <input type="file" id="image" name="image">
             </div>
 
             <input type="submit" value="Envoyer" name="send">
         </form>
-    </div>
     </div>
 
     <script>

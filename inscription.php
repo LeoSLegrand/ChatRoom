@@ -37,7 +37,7 @@
                             //on hash le mot de passe
                             $hashedPassword = password_hash($mdp1, PASSWORD_DEFAULT);
                             //si ça n'existe pas , créons le compte
-                            $req = mysqli_query($con , "INSERT INTO utilisateurs VALUES (NULL, '$email' , '$hashedPassword') ");
+                            $req = mysqli_query($con , "INSERT INTO utilisateurs VALUES (NULL, '$email' , '$hashedPassword', 0) ");
 
                             if($req){
                                 // si le compte a été créer , créons une variable pour afficher un message dans la page de
