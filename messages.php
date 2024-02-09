@@ -14,7 +14,7 @@ function convertLinks($message)
 {
     // Regular expression to match URLs
     $pattern = '/(https?:\/\/\S+)/';
-    
+
     // Replace URLs with clickable hyperlinks
     $message = preg_replace($pattern, '<a href="$1" target="_blank">$1</a>', $message);
 
@@ -59,27 +59,26 @@ if (isset($_SESSION['user'])) {
             $msg = convertLinks($msg);
 
             // Display the message
-            if ($row['email'] == $_SESSION['user']) {
-                // If you sent the message
-                ?>
-                <div class="message your_message" style="<?= $style ?>">
-                    <span>Vous</span>
-                    <?php displayImage($image); ?>
-                    <p><?= $msg ?></p>
-                    <p class="date"><?= $row['date'] ?></p>
-                </div>
+            ?>
+            <div class="message" style="<?= $style ?>">
+                <span><?= htmlspecialchars($row['email']) ?></span>
+                <?php displayImage($image); ?>
+                <p><?= $msg ?> </p>
+                <p class="date"><?= $row['date'] ?></p>
                 <?php
-            } else {
-                // If you are not the author of the message
+                // Check if the logged-in user is an admin
+                if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+                    // Display delete button for admin users
+                    ?>
+                    <form action="deleteMessage.php" method="post">
+                        <input type="hidden" name="message_id" value="<?= $row['id_m'] ?>">
+                        <input type="submit" value="Delete">
+                    </form>
+                    <?php
+                }
                 ?>
-                <div class="message others_message" style="<?= $style ?>">
-                    <span><?= htmlspecialchars($row['email']) ?></span>
-                    <?php displayImage($image); ?>
-                    <p><?= $msg ?> </p>
-                    <p class="date"><?= $row['date'] ?></p>
-                </div>
-                <?php
-            }
+            </div>
+            <?php
         }
     }
 }
