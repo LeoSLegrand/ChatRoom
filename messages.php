@@ -37,11 +37,11 @@ if (isset($_SESSION['user'])) {
 
         while ($row = mysqli_fetch_assoc($req)) {
             // Retrieve formatting options
-            $textColor = $row['text_color'];
+            $textColor = htmlspecialchars($row['text_color']);
             $bold = $row['is_bold'] == 1 ? 'font-weight: bold;' : '';
             $italics = $row['is_italics'] == 1 ? 'font-style: italic;' : '';
-            $image = $row['image'];
-            $msg = $row['msg'];
+            $image = htmlspecialchars($row['image']);
+            $msg = htmlspecialchars($row['msg']);
 
             // Create the style based on formatting options
             $style = '';
@@ -73,7 +73,7 @@ if (isset($_SESSION['user'])) {
                 // If you are not the author of the message
                 ?>
                 <div class="message others_message" style="<?= $style ?>">
-                    <span><?= $row['email'] ?></span>
+                    <span><?= htmlspecialchars($row['email']) ?></span>
                     <?php displayImage($image); ?>
                     <p><?= $msg ?> </p>
                     <p class="date"><?= $row['date'] ?></p>
