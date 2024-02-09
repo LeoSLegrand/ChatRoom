@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 05, 2024 at 11:13 AM
+-- Generation Time: Feb 09, 2024 at 10:39 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `is_italics` tinyint(1) DEFAULT '0',
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_m`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `messages`
@@ -75,7 +75,8 @@ INSERT INTO `messages` (`id_m`, `email`, `msg`, `date`, `text_color`, `is_bold`,
 (30, 'z@z', 'd', '2024-02-05 11:39:28', '#000000', 0, 0, 'uploads/Darkest Dungeon.png'),
 (31, 'z@z', 'https://github.com/', '2024-02-05 11:43:53', '#000000', 0, 0, ''),
 (32, 'z@z', 'https://github.com/', '2024-02-05 12:04:13', '#0000ff', 0, 0, ''),
-(33, 'azerty@mail', 'Ce message est en orange et gras avec une image ', '2024-02-05 12:10:03', '#ff8000', 1, 0, 'uploads/sunset.jpg');
+(33, 'azerty@mail', 'Ce message est en orange et gras avec une image ', '2024-02-05 12:10:03', '#ff8000', 1, 0, 'uploads/sunset.jpg'),
+(34, 'z@z', 'ezqestyg', '2024-02-09 11:02:25', '#000000', 0, 0, 'uploads/BioHazard Lord-EUW-1.jpeg');
 
 -- --------------------------------------------------------
 
@@ -88,16 +89,19 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `id_u` int NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
   `mdp` varchar(255) NOT NULL,
+  `IsAdmin` tinyint DEFAULT '0',
   PRIMARY KEY (`id_u`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`id_u`, `email`, `mdp`) VALUES
-(5, 'azerty@mail', '$2y$10$0NFjyi9v3GpxBQhl6bZ4Auuf3hZ/4t6nz6ZNAiSo6WhhwMiyF1qB6'),
-(4, 'z@z', '$2y$10$bzUlAMyJAeT.YluEtT8AfuLpjzgd0ypcaBEAOMsNP0BikxyznfbwG');
+INSERT INTO `utilisateurs` (`id_u`, `email`, `mdp`, `IsAdmin`) VALUES
+(5, 'azerty@mail', '$2y$10$0NFjyi9v3GpxBQhl6bZ4Auuf3hZ/4t6nz6ZNAiSo6WhhwMiyF1qB6', 0),
+(4, 'z@z', '$2y$10$bzUlAMyJAeT.YluEtT8AfuLpjzgd0ypcaBEAOMsNP0BikxyznfbwG', 0),
+(6, 'admin@man', '$2y$10$Ee6L9YlqHCTdQininTwAfeOQUDAP/1xKEyILTZNzxT7B.gQCU3IAW', 1),
+(7, 'qsqdwfvhb@ddfdf', '$2y$10$UuY3e2dgne3VKx6P12XPaucP0koxC/nVDq/p478fIUwkT9yjPg6eq', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
