@@ -1,78 +1,80 @@
 <?php
 session_start();
 
-// Function to check if an image exists for a message
-function displayImage($image)
+// Function to verify if an image exists for a message
+function afficherImage($image)
 {
     if ($image) {
-        echo "<img src='$image' alt='Uploaded Image' style='max-width: 100%;'>";
+        echo "<img src='" . htmlspecialchars($image) . "' alt='Image téléchargée' style='max-width: 100%;'>";
     }
 }
 
-// Function to convert URLs in the message text to clickable hyperlinks
-function convertLinks($message)
+// Function to convert URLs in message text to clickable links
+function convertirLiens($message)
 {
     // Regular expression to match URLs
     $pattern = '/(https?:\/\/\S+)/';
 
-    // Replace URLs with clickable hyperlinks
+    // Replace URLs with clickable links
     $message = preg_replace($pattern, '<a href="$1" target="_blank">$1</a>', $message);
 
     return $message;
 }
 
-// If the user is connected
+// If the user is logged in
 if (isset($_SESSION['user'])) {
     // Connect to the database
     include "connexion_bdd.php";
 
     // Query to display messages
-    $req = mysqli_query($con, "SELECT * FROM messages ORDER BY id_m");
+    $stmt = mysqli_prepare($con, "SELECT * FROM messages ORDER BY id_m");
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    if (mysqli_num_rows($req) == 0) {
+    if (mysqli_num_rows($result) == 0) {
         // If there are no messages yet
         echo "Messagerie vide";
     } else {
         // If there are messages
 
-        while ($row = mysqli_fetch_assoc($req)) {
-            // Retrieve formatting options
-            $textColor = $row['text_color'] ? htmlspecialchars($row['text_color']) : '';
-            $bold = $row['is_bold'] == 1 ? 'font-weight: bold;' : '';
-            $italics = $row['is_italics'] == 1 ? 'font-style: italic;' : '';
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Get formatting options
+            $texteCouleur = $row['text_color'] ? htmlspecialchars($row['text_color']) : '';
+            $gras = $row['is_bold'] == 1 ? 'font-weight: bold;' : '';
+            $italique = $row['is_italics'] == 1 ? 'font-style: italic;' : '';
             $image = $row['image'] ? htmlspecialchars($row['image']) : '';
             $msg = $row['msg'] ? htmlspecialchars($row['msg']) : '';
 
-            // Create the style based on formatting options
+            // Create style based on formatting options
             $style = '';
-            if ($textColor) {
-                $style .= "color: $textColor;";
+            if ($texteCouleur) {
+                $style .= "color: $texteCouleur;";
             }
-            if ($bold) {
-                $style .= $bold;
+            if ($gras) {
+                $style .= $gras;
             }
-            if ($italics) {
-                $style .= $italics;
+            if ($italique) {
+                $style .= $italique;
             }
 
-            // Convert URLs to clickable hyperlinks
-            $msg = convertLinks($msg);
+            // Convert URLs in message to clickable links
+            $msg = convertirLiens($msg);
 
             // Display the message
             ?>
-            <div class="message" style="<?= $style ?>">
+            <div class="message" style="<?= htmlspecialchars($style) ?>">
                 <span><?= $row['email'] ? htmlspecialchars($row['email']) : '' ?></span>
-                <?php displayImage($image); ?>
+                <?php afficherImage($image); ?>
                 <p><?= $msg ?> </p>
-                <p class="date"><?= $row['date'] ?></p>
+                <p class="date"><?= htmlspecialchars($row['date']) ?></p>
                 <?php
-                // Check if the logged-in user is an admin
+                // Check if the logged-in user is an administrator
                 if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
-                    // Display delete button for admin users
+                    // Display the delete button for administrator users
                     ?>
                     <form action="deleteMessage.php" method="post">
-                        <input type="hidden" name="message_id" value="<?= $row['id_m'] ?>">
-                        <input type="submit" value="Delete">
+                        <input type="hidden" name="message_id" value="<?= htmlspecialchars($row['id_m']) ?>">
+                        <input type="submit" value="Supprimer">
                     </form>
                     <?php
                 }

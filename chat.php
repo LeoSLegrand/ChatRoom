@@ -1,34 +1,35 @@
 <?php
-// Start the session
+// Démarrer la session
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    // If the user is not connected, redirect to the login page
+    // Si l'utilisateur n'est pas connecté, redirection vers la page de connexion
     header("location:index.php");
+    exit(); // Arrêter l'exécution ultérieure
 }
 
-$user = $_SESSION['user']; // User's email
+$user = htmlspecialchars($_SESSION['user']); // Nettoyer l'email de l'utilisateur
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <?=$user?> | CHAT</title>
+    <title> <?= $user ?> | CHAT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="chat">
         <div class="button-email">
-            <span> <?=$user?> </span>
+            <span> <?= $user ?> </span>
             <?php
-            // Check if the user is an admin
+            // Vérifier si l'utilisateur est un administrateur
             if ($_SESSION['isAdmin']) {
-                // If user is an admin, display the "Gérer les comptes" button
+                // Si l'utilisateur est un administrateur, afficher le bouton "Gérer les comptes"
                 ?>
                 <a href="manageAccount.php" class="manage_account_btn">Gérer les comptes</a>
                 <?php
@@ -38,46 +39,58 @@ $user = $_SESSION['user']; // User's email
         </div>
         <!-- Messages -->
         <div class="messages_box"> Chargement ...</div>
-        <!-- End of messages -->
+        <!-- Fin des messages -->
 
         <?php
-        // Sending messages
+        // Envoi des messages
         if (isset($_POST['send'])) {
-            // Retrieve the message
-            $message = $_POST['message'];
-            // Retrieve formatting options
-            $textColor = isset($_POST['text_color']) ? $_POST['text_color'] : '';
+            // Récupérer le message et le nettoyer
+            $message = htmlspecialchars($_POST['message']);
+
+            // Récupérer les options de formatage
+            $textColor = isset($_POST['text_color']) ? htmlspecialchars($_POST['text_color']) : '';
             $bold = isset($_POST['bold']) ? 1 : 0;
             $italics = isset($_POST['italics']) ? 1 : 0;
 
-            // Handling image upload
-            $image = '';
 
-            // Check if the directory exists, if not, create it
+            // Vérifier si le répertoire existe, sinon le créer
             $uploadDir = 'uploads/';
             if (!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
 
-            // Check if an image was uploaded
+            // Vérifier si une image a été téléchargée et valider le type de fichier
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 $targetFile = $uploadDir . basename($_FILES['image']['name']);
 
-                // Move the uploaded image to the target directory
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-                    $image = $targetFile;
+                // Obtenir l'extension du fichier
+                $fileExtension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+                // Extensions de fichiers image autorisées
+                $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif');
+
+                // Vérifier si l'extension du fichier est dans la liste autorisée
+                if (in_array($fileExtension, $allowedExtensions)) {
+                    // Déplacer l'image téléchargée vers le répertoire cible
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                        $image = $targetFile;
+                    } else {
+                        // Gérer le cas où le téléchargement de l'image échoue
+                        echo "Erreur lors du téléchargement de l'image.";
+                    }
                 } else {
-                    // Handle the case where the image upload fails
-                    echo "Error uploading image.";
+                    // Si l'extension du fichier n'est pas autorisée, afficher un message d'erreur
+                    echo "Seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
                 }
             }
 
-            // Connect to the database
+
+            // Connexion à la base de données
             include_once "connexion_bdd.php";
 
-            // Check if the field is not empty
-            if (isset($message) && $message != "") {
-                // Insert the message into the database with formatting options
+            // Vérifier si le champ n'est pas vide
+            if (!empty($message)) {
+                // Insérer le message dans la base de données avec les options de formatage en utilisant des instructions préparées
                 $stmt = mysqli_prepare($con, "INSERT INTO messages (email, msg, date, text_color, is_bold, is_italics, image) VALUES (?, ?, NOW(), ?, ?, ?, ?)");
 
                 if ($stmt) {
@@ -85,15 +98,17 @@ $user = $_SESSION['user']; // User's email
                     mysqli_stmt_execute($stmt);
                     mysqli_stmt_close($stmt);
                 } else {
-                    // Handle the case where prepare fails
-                    echo "Error in preparing the SQL statement.";
+                    // Gérer le cas où la préparation échoue
+                    echo "Erreur lors de la préparation de l'instruction SQL.";
                 }
 
-                // Refresh the page
+                // Rafraîchir la page
                 header('location:chat.php');
+                exit(); // Arrêter l'exécution ultérieure
             } else {
-                // If the message is empty, refresh the page
+                // Si le message est vide, rafraîchir la page
                 header('location:chat.php');
+                exit(); // Arrêter l'exécution ultérieure
             }
         }
         ?>
@@ -101,7 +116,7 @@ $user = $_SESSION['user']; // User's email
         <form action="" class="send_message" method="POST" enctype="multipart/form-data">
             <textarea name="message" cols="30" rows="2" placeholder="Votre message"></textarea>
 
-            <!-- Formatting options -->
+            <!-- Options de formatage -->
             <label for="text_color">Couleur du texte :</label>
             <input type="color" id="text_color" name="text_color">
 
@@ -116,7 +131,7 @@ $user = $_SESSION['user']; // User's email
             </div>
 
             <div>
-                <!-- Image upload field -->
+                <!-- Champ de téléchargement d'image -->
                 <label for="image">Image :</label>
                 <input type="file" id="image" name="image">
             </div>
@@ -126,7 +141,7 @@ $user = $_SESSION['user']; // User's email
     </div>
 
     <script>
-        // Automatically update the chat using AJAX
+        // Mettre à jour automatiquement le chat en utilisant AJAX
         var message_box = document.querySelector('.messages_box');
         setInterval(function () {
             var xhttp = new XMLHttpRequest();
@@ -135,9 +150,9 @@ $user = $_SESSION['user']; // User's email
                     message_box.innerHTML = this.responseText;
                 }
             };
-            xhttp.open("GET", "messages.php", true); // Retrieve the message page
+            xhttp.open("GET", "messages.php", true); // Récupérer la page de message
             xhttp.send()
-        }, 500) // Update the chat every 500 ms
+        }, 500) // Mettre à jour le chat toutes les 500 ms
     </script>
 </body>
 

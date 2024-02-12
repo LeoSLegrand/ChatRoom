@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion | Chat</title>
+    <title>Inscription | Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -38,16 +38,23 @@
                 $hashedPassword = password_hash($mdp1, PASSWORD_DEFAULT);
 
                 // Vérifiez si l'email existe déjà
-                $req = mysqli_query($con , "SELECT * FROM utilisateurs WHERE email = '$email'");
-                if(mysqli_num_rows($req) == 0){
-                    // Si l'email n'existe pas déjà, créez le compte
-                    $req = mysqli_query($con , "INSERT INTO utilisateurs VALUES (NULL, '$email' , '$hashedPassword', 0) ");
+                $stmt = mysqli_prepare($con, "SELECT * FROM utilisateurs WHERE email = ?");
+                mysqli_stmt_bind_param($stmt, "s", $email);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
 
-                    if($req){
+                if(mysqli_num_rows($result) == 0){
+                    // Si l'email n'existe pas déjà, créez le compte
+                    $stmt = mysqli_prepare($con, "INSERT INTO utilisateurs VALUES (NULL, ?, ?, 0)");
+                    mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
+                    $success = mysqli_stmt_execute($stmt);
+
+                    if($success){
                         // Si le compte a été créé, définissez une variable pour afficher un message dans la page de connexion
-                        $_SESSION['message'] = "<p class='message_inscription'>Votre compte a été créé avec succès !</p>" ;
+                        $_SESSION['message'] = "Votre compte a été créé avec succès !";
                         // Redirection vers la page de connexion
                         header("Location:index.php") ;
+                        exit();
                     } else {
                         // Si l'inscription échoue
                         $error = "Inscription échouée !";
@@ -70,7 +77,7 @@
             <?php 
             // Affichage des erreurs
             if(isset($error)){
-                echo $error ;
+                echo htmlspecialchars($error) ;
             }
             ?>
         </p>

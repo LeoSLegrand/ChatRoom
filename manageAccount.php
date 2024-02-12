@@ -1,48 +1,54 @@
 <?php
-// Start the session
+// Démarrer la session
 session_start();
 
-// Include the database connection file
+// Inclure le fichier de connexion à la base de données
 include_once "connexion_bdd.php";
 
-// Check if the user is logged in and has admin privileges
+// Vérifier si l'utilisateur est connecté et a des privilèges d'administrateur
 if (!isset($_SESSION['user']) || !$_SESSION['isAdmin']) {
-    // Redirect to login page or display an error message
-    header("Location: login.php"); // Redirect to login page
-    exit(); // Stop further execution
+    // Rediriger vers la page de connexion ou afficher un message d'erreur
+    header("Location: login.php"); // Redirection vers la page de connexion
+    exit(); // Arrêter l'exécution ultérieure
 }
 
-// Check if the form is submitted
+// Vérifier si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve the list of user accounts from the database again to ensure it's up to date
+    // Récupérer la liste des comptes d'utilisateurs depuis la base de données à nouveau pour s'assurer qu'elle est à jour
     $query = "SELECT id_u, email, IsAdmin FROM utilisateurs";
-    $result = mysqli_query($con, $query);
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    // Loop through each user account
+    // Parcourir chaque compte utilisateur
     while ($row = mysqli_fetch_assoc($result)) {
-        // Update the user's IsAdmin status to 1
-        // Check if the checkbox for this user is checked
+        // Mettre à jour le statut IsAdmin de l'utilisateur à 1
+        // Vérifier si la case à cocher pour cet utilisateur est cochée
         if (isset($_POST['admin_' . $row['id_u']])) {
-            // Update the user's IsAdmin status to 1
-            $updateQuery = "UPDATE utilisateurs SET IsAdmin = 1 WHERE id_u = '" . $row['id_u'] . "'";
-            mysqli_query($con, $updateQuery);
-            $row['IsAdmin'] = 1; // Update the IsAdmin status in the current row
+            // Mettre à jour le statut IsAdmin de l'utilisateur à 1
+            $updateQuery = "UPDATE utilisateurs SET IsAdmin = 1 WHERE id_u = ?";
+            $stmt = mysqli_prepare($con, $updateQuery);
+            mysqli_stmt_bind_param($stmt, "i", $row['id_u']);
+            mysqli_stmt_execute($stmt);
         } else {
-            // Update the user's IsAdmin status to 0
-            $updateQuery = "UPDATE utilisateurs SET IsAdmin = 0 WHERE id_u = '" . $row['id_u'] . "'";
-            mysqli_query($con, $updateQuery);
-            $row['IsAdmin'] = 0; // Update the IsAdmin status in the current row
+            // Mettre à jour le statut IsAdmin de l'utilisateur à 0
+            $updateQuery = "UPDATE utilisateurs SET IsAdmin = 0 WHERE id_u = ?";
+            $stmt = mysqli_prepare($con, $updateQuery);
+            mysqli_stmt_bind_param($stmt, "i", $row['id_u']);
+            mysqli_stmt_execute($stmt);
         }
     }
-    // Provide feedback to the admin
-    $success_message = "Admin privileges updated successfully.";
+    // Fournir un retour d'information à l'administrateur
+    $success_message = "Privilèges d'administrateur mis à jour avec succès.";
 }
 
-// Retrieve the list of user accounts from the database
+// Récupérer la liste des comptes d'utilisateurs depuis la base de données
 $query = "SELECT id_u, email, IsAdmin FROM utilisateurs";
-$result = mysqli_query($con, $query);
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-// Close the database connection
+// Fermer la connexion à la base de données
 mysqli_close($con);
 ?>
 
@@ -53,42 +59,42 @@ mysqli_close($con);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Accounts</title>
+    <title>Gérer les comptes</title>
     <link rel="stylesheet" href="manageAccount.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Manage User Accounts</h1>
+        <h1>Gérer les comptes d'utilisateurs</h1>
 
         <?php if (isset($success_message)) : ?>
             <div class="success-message">
-                <?php echo $success_message; ?>
+                <?php echo htmlspecialchars($success_message); ?>
             </div>
         <?php endif; ?>
 
         <form method="POST">
             <?php
             if ($result) {
-                // Display the list of user accounts with checkboxes
+                // Afficher la liste des comptes d'utilisateurs avec des cases à cocher
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<input type='checkbox' name='admin_" . $row['id_u'] . "' value='1'";
-                    // Check the checkbox if the user is an admin
+                    echo "<input type='checkbox' name='admin_" . htmlspecialchars($row['id_u']) . "' value='1'";
+                    // Cocher la case si l'utilisateur est un administrateur
                     if ($row['IsAdmin']) {
                         echo " checked";
                     }
-                    echo ">" . $row['email'] . "<br>";
+                    echo ">" . htmlspecialchars($row['email']) . "<br>";
                 }
             } else {
-                echo "Error: Unable to fetch user accounts.";
+                echo "Erreur : Impossible de récupérer les comptes d'utilisateurs.";
             }
             ?>
-            <input type="submit" value="Save">
+            <input type="submit" value="Enregistrer">
         </form>
 
         <div class="back-button">
-            <a href="manageAccount.php">Reload</a>
-            <a href="chat.php">Back to Chat</a>
+            <a href="manageAccount.php">Recharger</a>
+            <a href="chat.php">Retour au chat</a>
         </div>
     </div>
 </body>

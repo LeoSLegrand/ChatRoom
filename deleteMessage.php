@@ -1,40 +1,48 @@
 <?php
 session_start();
 
-// Check if the user is logged in and has admin privileges
+// Vérifie si l'utilisateur est connecté et possède des privilèges d'administrateur
 if (!isset($_SESSION['user']) || !isset($_SESSION['isAdmin']) || !$_SESSION['isAdmin']) {
-    // Redirect to login page or display an error message
-    header("Location: login.php"); // Redirect to login page
-    exit(); // Stop further execution
+    // Redirige vers la page de connexion ou affiche un message d'erreur
+    header("Location: login.php"); // Redirige vers la page de connexion
+    exit(); // Arrête l'exécution ultérieure
 }
 
-// Check if the message ID is provided via POST request
+// Vérifie si l'identifiant du message est fourni via une requête POST
 if (isset($_POST['message_id'])) {
-    // Connect to the database
+    // Connexion à la base de données
     include "connexion_bdd.php";
 
-    // Sanitize the message ID
+    // Assainit l'identifiant du message
     $message_id = mysqli_real_escape_string($con, $_POST['message_id']);
 
-    // Prepare a delete statement
-    $delete_query = "DELETE FROM messages WHERE id_m = '$message_id'";
+    // Prépare une requête de suppression
+    $delete_query = "DELETE FROM messages WHERE id_m = ?";
 
-    // Execute the delete statement
-    if (mysqli_query($con, $delete_query)) {
-        // Message deleted successfully
-        // Redirect back to the chat page or display a success message
-        header("Location: chat.php");
-        exit(); // Stop further execution
-    } else {
-        // Error occurred while deleting the message
-        // Redirect back to the chat page or display an error message
-        header("Location: chat.php");
-        exit(); // Stop further execution
+    // Prépare la requête
+    $stmt = mysqli_prepare($con, $delete_query);
+
+    if ($stmt) {
+        // Lie les paramètres
+        mysqli_stmt_bind_param($stmt, "i", $message_id);
+
+        // Exécute la requête
+        if (mysqli_stmt_execute($stmt)) {
+            // Message supprimé avec succès
+            // Redirige vers la page de chat ou affiche un message de succès
+            header("Location: chat.php");
+            exit(); // Arrête l'exécution ultérieure
+        }
     }
-} else {
-    // Message ID not provided
-    // Redirect back to the chat page or display an error message
+
+    // Une erreur s'est produite lors de la suppression du message
+    // Redirige vers la page de chat ou affiche un message d'erreur
     header("Location: chat.php");
-    exit(); // Stop further execution
+    exit(); // Arrête l'exécution ultérieure
+} else {
+    // L'identifiant du message n'est pas fourni
+    // Redirige vers la page de chat ou affiche un message d'erreur
+    header("Location: chat.php");
+    exit(); // Arrête l'exécution ultérieure
 }
 ?>

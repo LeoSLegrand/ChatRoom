@@ -34,7 +34,10 @@ session_start();
 
                     // Utilise password_verify pour vérifier si le mot de passe entré correspond rapport à celui qui est hashé dans la BDD
                     if(password_verify($mdp1, $user['mdp'])){
-                        $_SESSION['user'] = $email;
+                        // Régénère l'ID de session pour éviter les attaques de fixation de session
+                        session_regenerate_id(true);
+
+                        $_SESSION['user'] = htmlspecialchars($email); // Sanitize user input
                         $_SESSION['isAdmin'] = $user['IsAdmin']; // Set the isAdmin flag in the session
                         header("location:chat.php");
                         unset($_SESSION['message']);
@@ -59,7 +62,7 @@ session_start();
         <?php
         // Affiche le message qui dit qu'un compte a été créé
         if(isset($_SESSION['message'])){
-            echo $_SESSION['message'] ;
+            echo htmlspecialchars($_SESSION['message']); // Sanitize user input
         }
         ?>
 
@@ -67,7 +70,7 @@ session_start();
             <?php 
             // Affiche l'erreur
             if(isset($error)){
-                echo $error ;
+                echo htmlspecialchars($error); // Sanitize user input
             }
             ?>
         </p>

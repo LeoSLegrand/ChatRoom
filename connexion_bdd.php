@@ -1,24 +1,23 @@
 <?php 
-    //Connexion à la base de données
-    $con = mysqli_connect("localhost","root","","ChatRoom");
-    //gérer les accents et autres caractères français
-    $req= mysqli_query($con , "SET NAMES UTF8");
-    if(!$con){
-        //si la connexion échoue , afficher :
-        echo "Connexion échouée";
-    }
+// Configuration de la base de données
+$dbHost = "localhost";
+$dbUser = "root";
+$dbPassword = "";
+$dbName = "ChatRoom";
 
+// Établir la connexion à la base de données
+$con = mysqli_connect($dbHost, $dbUser, $dbPassword, $dbName);
 
-/*
-// Connexion à la base de données
-$con = mysqli_connect("localhost", "root", "", "ChatRoom");
-
-// Gérer les accents et autres caractères français
-$req = mysqli_query($con, "SET NAMES UTF8");
-
-// Vérifier si la connexion a échoué
+// Vérifier si la connexion a réussi
 if (!$con) {
-    // Si la connexion échoue, afficher un message d'erreur et arrêter l'exécution du script
-    die("Connexion échouée : " . mysqli_connect_error());
+    // Enregistrer un message d'erreur détaillé
+    error_log("Échec de la connexion à la base de données : " . mysqli_connect_error());
+
+    // Afficher un message d'erreur générique aux utilisateurs
+    die("Erreur de connexion à la base de données.");
 }
-?> */
+
+// Définir l'encodage des caractères pour la connexion à la base de données à l'aide d'une instruction préparée
+$stmt = mysqli_prepare($con, "SET NAMES UTF8");
+mysqli_stmt_execute($stmt);
+?>
