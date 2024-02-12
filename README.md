@@ -49,6 +49,6 @@
 
 <br>
 
-Afin de vous permettre de tester l'application, un compte admin est déjà créer de base. Ses identifiant sont : 
+Afin de vous permettre de tester l'application, un compte admin est déjà créer de base. Ses identifiants sont : 
    - Adresse Mail : admin@man
    - Mots de passe : a
