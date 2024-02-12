@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 09, 2024 at 01:15 PM
+-- Generation Time: Feb 12, 2024 at 11:05 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `is_italics` tinyint(1) DEFAULT '0',
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_m`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `messages`
@@ -46,36 +46,19 @@ CREATE TABLE IF NOT EXISTS `messages` (
 
 INSERT INTO `messages` (`id_m`, `email`, `msg`, `date`, `text_color`, `is_bold`, `is_italics`, `image`) VALUES
 (1, 'Sarouman@gmail.com', 'Hey, salut à tous les amis, c\'est David Lafarge Pokemon', '2023-11-23 16:14:29', '#0000FF', 1, 0, NULL),
+(43, 'z@z.z', 'dsfdgfhgjhk', '2024-02-12 11:12:36', '#804000', 1, 0, NULL),
 (4, 'Sarouman@gmail.com', 'Lol', '2023-11-22 16:19:14', NULL, 0, 0, NULL),
-(5, 'z@z', 'dd', '2024-02-05 10:17:06', '', 0, 0, NULL),
 (6, 'z@z', 'dfsgwdhxfncg,', '2024-02-05 10:20:17', '#000000', 1, 1, NULL),
-(7, 'z@z', 'lien chatgpt : ', '2024-02-05 10:21:11', '#000000', 1, 0, NULL),
-(8, 'z@z', 'dfghjklm', '2024-02-05 10:23:40', '#ff8040', 0, 0, NULL),
-(9, 'z@z', 'gqzhzehzr', '2024-02-05 10:23:57', '#8080ff', 0, 0, NULL),
-(10, 'z@z', 'qdswfdhj', '2024-02-05 10:42:15', '#000000', 0, 0, 'uploads/Mabel.png'),
-(18, 'z@z', 'One punch man planet', '2024-02-05 11:15:53', '#008000', 0, 1, ''),
 (12, 'z@z', '\r\nc\r\nc\r\nc\r\nc\r\n\r\n', '2024-02-05 11:01:37', '#000000', 0, 0, ''),
-(13, 'z@z', 'c', '2024-02-05 11:01:39', '#000000', 0, 0, ''),
-(14, 'z@z', 'c', '2024-02-05 11:01:40', '#000000', 0, 0, ''),
-(15, 'z@z', 'c', '2024-02-05 11:01:42', '#000000', 0, 0, ''),
+(39, 'admin@man', 'qs', '2024-02-12 10:37:07', '#000000', 0, 0, 'uploads/Volibear original.jpg'),
 (16, 'z@z', 'Image tree', '2024-02-05 11:10:59', '#800040', 0, 1, ''),
-(17, 'z@z', 'sdfgh,', '2024-02-05 11:11:20', '#000000', 0, 0, ''),
-(19, 'z@z', 'One punch man planet 2', '2024-02-05 11:19:48', '#400040', 1, 0, ''),
 (20, 'z@z', 'ffff', '2024-02-05 11:28:44', '#000000', 0, 0, ''),
-(21, 'z@z', 'hi', '2024-02-05 11:36:08', '#000000', 0, 0, ''),
-(22, 'z@z', 'hi\r\n', '2024-02-05 11:36:16', '#800080', 0, 0, ''),
-(23, 'z@z', 'hi', '2024-02-05 11:36:27', '#400000', 1, 0, ''),
-(24, 'z@z', 'hi', '2024-02-05 11:36:36', '#000000', 0, 1, ''),
+(37, 'admin@man', 'testing everything is ok', '2024-02-12 09:58:52', '#ff80c0', 0, 1, ''),
 (25, 'z@z', 'hi image', '2024-02-05 11:36:55', '#000000', 0, 0, 'uploads/My honest reaction.jpg'),
-(26, 'z@z', 'dqswfdcgb', '2024-02-05 11:37:28', '#000000', 0, 0, ''),
-(27, 'z@z', 'test image v2', '2024-02-05 11:38:32', '#000000', 0, 0, 'uploads/God of war.png'),
-(28, 'z@z', 'd', '2024-02-05 11:38:57', '#000000', 0, 0, 'uploads/Unknown Warrior.png'),
 (29, 'z@z', 'd', '2024-02-05 11:39:15', '#000000', 0, 0, 'uploads/rice field sunrise.jpg'),
 (30, 'z@z', 'd', '2024-02-05 11:39:28', '#000000', 0, 0, 'uploads/Darkest Dungeon.png'),
-(31, 'z@z', 'https://github.com/', '2024-02-05 11:43:53', '#000000', 0, 0, ''),
 (32, 'z@z', 'https://github.com/', '2024-02-05 12:04:13', '#0000ff', 0, 0, ''),
 (33, 'azerty@mail', 'Ce message est en orange et gras avec une image ', '2024-02-05 12:10:03', '#ff8000', 1, 0, 'uploads/sunset.jpg'),
-(34, 'z@z', 'ezqestyg', '2024-02-09 11:02:25', '#000000', 0, 0, 'uploads/BioHazard Lord-EUW-1.jpeg'),
 (36, 'aurelion@gmail.com', 'Hello Runterra ! Let\'s rock !', '2024-02-09 12:24:19', '#ffff80', 0, 0, '');
 
 -- --------------------------------------------------------
@@ -91,21 +74,16 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `mdp` varchar(255) NOT NULL,
   `IsAdmin` tinyint DEFAULT '0',
   PRIMARY KEY (`id_u`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`id_u`, `email`, `mdp`, `IsAdmin`) VALUES
-(5, 'azerty@mail', '$2y$10$0NFjyi9v3GpxBQhl6bZ4Auuf3hZ/4t6nz6ZNAiSo6WhhwMiyF1qB6', 0),
-(4, 'z@z', '$2y$10$bzUlAMyJAeT.YluEtT8AfuLpjzgd0ypcaBEAOMsNP0BikxyznfbwG', 0),
 (6, 'admin@man', '$2y$10$Ee6L9YlqHCTdQininTwAfeOQUDAP/1xKEyILTZNzxT7B.gQCU3IAW', 1),
-(7, 'qsqdwfvhb@ddfdf', '$2y$10$UuY3e2dgne3VKx6P12XPaucP0koxC/nVDq/p478fIUwkT9yjPg6eq', 1),
-(8, 'Hello@gmail.com', '$2y$10$obq9J8Vrtz95.TYVd.rjbOLl4R2Uofz2iVRiuCNAJdmTaFTGggRki', 1),
 (9, 'ken@mail.com', '$2y$10$0c/1vT/c9zJqNFV4Mafg0O7G.hhd2G3gUsv/d0m6XQCNkI/pDt76a', 0),
-(11, 'aurelion@gmail.com', '$2y$10$Jgj3Gkjwz4P4fMD1dOwqneWFW3MJ/fYha1cpzrV.fIEZivK3N/fQ.', 0),
-(12, 'testtoutmarche@a.a', '$2y$10$KEjgh13IN5.9QN5gKKXUrOLNfSRwjwmQePzD1pUh9d3PQgubyBDPa', 0);
+(11, 'aurelion@gmail.com', '$2y$10$Jgj3Gkjwz4P4fMD1dOwqneWFW3MJ/fYha1cpzrV.fIEZivK3N/fQ.', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
