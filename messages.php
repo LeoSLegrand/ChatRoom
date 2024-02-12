@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Function to verify if an image exists for a message
+// Fonction pour vérifier si une image existe pour un message
 function afficherImage($image)
 {
     if ($image) {
@@ -9,43 +9,43 @@ function afficherImage($image)
     }
 }
 
-// Function to convert URLs in message text to clickable links
+// Fonction pour convertir les URL dans le texte du message en liens cliquables
 function convertirLiens($message)
 {
-    // Regular expression to match URLs
+    // Expression régulière pour rechercher les URL
     $pattern = '/(https?:\/\/\S+)/';
 
-    // Replace URLs with clickable links
+    // Remplacer les URL par des liens cliquables
     $message = preg_replace($pattern, '<a href="$1" target="_blank">$1</a>', $message);
 
     return $message;
 }
 
-// If the user is logged in
+// Si l'utilisateur est connecté
 if (isset($_SESSION['user'])) {
-    // Connect to the database
+    // Connexion à la base de données
     include "connexion_bdd.php";
 
-    // Query to display messages
+    // Requête pour afficher les messages
     $stmt = mysqli_prepare($con, "SELECT * FROM messages ORDER BY id_m");
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($result) == 0) {
-        // If there are no messages yet
+        // S'il n'y a pas encore de messages
         echo "Messagerie vide";
     } else {
-        // If there are messages
+        // S'il y a des messages
 
         while ($row = mysqli_fetch_assoc($result)) {
-            // Get formatting options
+            // Obtenir les options de mise en forme
             $texteCouleur = $row['text_color'] ? htmlspecialchars($row['text_color']) : '';
             $gras = $row['is_bold'] == 1 ? 'font-weight: bold;' : '';
             $italique = $row['is_italics'] == 1 ? 'font-style: italic;' : '';
             $image = $row['image'] ? htmlspecialchars($row['image']) : '';
             $msg = $row['msg'] ? htmlspecialchars($row['msg']) : '';
 
-            // Create style based on formatting options
+            // Créer le style en fonction des options de mise en forme
             $style = '';
             if ($texteCouleur) {
                 $style .= "color: $texteCouleur;";
@@ -57,10 +57,10 @@ if (isset($_SESSION['user'])) {
                 $style .= $italique;
             }
 
-            // Convert URLs in message to clickable links
+            // Convertir les URL dans le message en liens cliquables
             $msg = convertirLiens($msg);
 
-            // Display the message
+            // Afficher le message
             ?>
             <div class="message" style="<?= htmlspecialchars($style) ?>">
                 <span><?= $row['email'] ? htmlspecialchars($row['email']) : '' ?></span>
@@ -68,9 +68,9 @@ if (isset($_SESSION['user'])) {
                 <p><?= $msg ?> </p>
                 <p class="date"><?= htmlspecialchars($row['date']) ?></p>
                 <?php
-                // Check if the logged-in user is an administrator
+                // Vérifier si l'utilisateur connecté est un administrateur
                 if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
-                    // Display the delete button for administrator users
+                    // Afficher le bouton de suppression pour les utilisateurs administrateurs
                     ?>
                     <form action="deleteMessage.php" method="post">
                         <input type="hidden" name="message_id" value="<?= htmlspecialchars($row['id_m']) ?>">
