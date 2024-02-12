@@ -1,3 +1,7 @@
+# ReadMe du projet CHATROOM
+
+## Mise en place du projet d'origine
+
 1. **Lancer WampServer:**
    - Assurez vous que WampServer est installé sur votre système.
    - Lancez WampServer en exécutant l'application.
@@ -24,7 +28,7 @@ Désormais, nous allons voir la configuration de la base de données pour permet
 
 
 
-### Inscription pour accéder au chat room
+## Inscription pour accéder au chat room
 
 Pour accéder au chat room, veuillez suivre les étapes suivantes :
 
@@ -46,7 +50,7 @@ Pour accéder au chat room, veuillez suivre les étapes suivantes :
    - Une fois connecté en tant qu'administrateur, toutes les fonctionnalités seront disponibles.
 
 Note : Les comptes d'utilisateur créés auront accès à toutes les fonctionnalités du chat room, à l'exception de la suppression et de la gestion des rôles.
-Pour modifier cela il vous faudra modifier la valeur booleen directement dans la bdd.
+Pour modifier cela il vous faudra modifier la valeur booleen "isAdmin" directement dans la bdd ou dans l'onglet de la gestion des comptes (accessible en tant qu'admin) et disponible à coté du bouton déconnexion en haut du chat pour donnée les permissions à un utilisateur normal (il deviendra admin).
 
 
 
